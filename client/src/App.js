@@ -1,11 +1,21 @@
 import "./App.css";
-import { useState } from "react";
-import axios from "axios"; // 如果你选择使用axios的话
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 function App() {
   const [essayInput, setEssayInput] = useState("");
   const [score, setScore] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [essayPrompt, setEssayPrompt] = useState("");
+
+  useEffect(() => {
+    const promptText = `Directions: For this part, you are allowed 30 minutes to write an
+    advertisement on your campus website to sell some of the course books you
+    used at college. Your advertisement may include a brief description of
+    their content, their condition and price and your contact information. You
+    should write at least 120 words but no more than 180 words.`;
+    setEssayPrompt(promptText);
+  }, []);
 
   const handleEssayChange = (event) => {
     setEssayInput(event.target.value);
@@ -16,18 +26,16 @@ function App() {
     try {
       const response = await axios.post("http://127.0.0.1:3000/score", {
         essay: essayInput,
+        title: essayPrompt,
       });
       setScore(response.data.totalScore);
     } catch (error) {
       console.error("Error submitting essay:", error);
       if (error.response) {
-        // Server responded with a status other than 200 range
         console.error("Server responded with an error:", error.response.data);
       } else if (error.request) {
-        // Request was made but no response was received
         console.error("No response received:", error.request);
       } else {
-        // Something happened in setting up the request
         console.error("Error setting up request:", error.message);
       }
       setScore(null);
@@ -38,6 +46,9 @@ function App() {
   return (
     <div>
       <h1>作文评分</h1>
+      <div id="essayPrompt" style={{ marginBottom: "20px" }}>
+        {essayPrompt}
+      </div>
       <textarea
         rows="10"
         cols="50"
