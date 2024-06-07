@@ -9,8 +9,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const APP_KEY = "62c2cdf10e77d810";
-const APP_SECRET = "OIQC0HxQzq0dT7ItonlA7z1DMTYFdGxp";
+const APP_KEY = "6f00b95af1f08d05";
+const APP_SECRET = "aDdSOs96zBkgkwEKXqb8FB0KpfysH7Ql";
 const API_URL = "https://openapi.youdao.com/v2/correct_writing_text";
 const PORT = 3000;
 
